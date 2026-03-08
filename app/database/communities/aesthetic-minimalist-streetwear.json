@@ -1,0 +1,25 @@
+{
+  "id": "aesthetic-minimalist-streetwear",
+  "name": "Minimalist Streetwear",
+  "description": "Clean lines, neutral colors, and modern street style aesthetics.",
+  "category": "aesthetic",
+  "memberCount": 3421,
+  "trending": true,
+  "createdAt": "2024-01-10T07:00:00Z",
+  "recentPosts": [
+    {
+      "id": "post-005",
+      "communityId": "aesthetic-minimalist-streetwear",
+      "username": "minimal_mood",
+      "caption": "Less is more. Monochrome moment downtown.",
+      "imageUrl": "/database/communities/minimal-street.jpg",
+      "tags": ["minimalist", "monochrome", "streetwear", "clean"],
+      "likes": 567,
+      "comments": 41,
+      "saves": 123,
+      "createdAt": "2024-03-08T12:00:00Z",
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}

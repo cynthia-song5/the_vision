@@ -1,0 +1,25 @@
+{
+  "id": "location-nyc-creatives",
+  "name": "NYC Creatives",
+  "description": "Street style and professional looks from New York City's creative professionals.",
+  "category": "location", 
+  "memberCount": 5234,
+  "trending": true,
+  "createdAt": "2024-01-20T09:00:00Z",
+  "recentPosts": [
+    {
+      "id": "post-003",
+      "communityId": "location-nyc-creatives",
+      "username": "soho_styler",
+      "caption": "Monday meeting vibes in the financial district",
+      "imageUrl": "/database/communities/nyc-meeting.jpg",
+      "tags": ["business", "professional", "nyc", "minimalist"],
+      "likes": 412,
+      "comments": 34,
+      "saves": 89,
+      "createdAt": "2024-03-08T09:45:00Z",
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}

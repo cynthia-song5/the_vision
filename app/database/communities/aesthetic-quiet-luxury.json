@@ -1,0 +1,25 @@
+{
+  "id": "aesthetic-quiet-luxury",
+  "name": "Quiet Luxury",
+  "description": "Understated elegance, quality fabrics, and timeless sophistication.",
+  "category": "aesthetic",
+  "memberCount": 2756,
+  "trending": false,
+  "createdAt": "2024-01-25T10:00:00Z",
+  "recentPosts": [
+    {
+      "id": "post-006",
+      "communityId": "aesthetic-quiet-luxury",
+      "username": "luxury_living",
+      "caption": "Investment pieces that never go out of style",
+      "imageUrl": "/database/communities/quiet-luxury.jpg",
+      "tags": ["luxury", "timeless", "elegant", "investment"],
+      "likes": 423,
+      "comments": 28,
+      "saves": 156,
+      "createdAt": "2024-03-07T18:30:00Z",
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Scan, Search } from "lucide-react";
+import { Scan, Search, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -24,7 +24,7 @@ export function Navigation() {
             The Vision
           </span>
           <span className="hidden sm:block text-xs font-body font-medium uppercase tracking-[0.18em]" style={{ color: "#8F9BB8" }}>
-            · {pathname === "/" ? "Share Your Vision" : "Find Your Vision"}
+            · {pathname === "/" ? "Share Your Vision" : pathname === "/find-vision" ? "Find Your Vision" : "Communities"}
           </span>
         </div>
         
@@ -46,6 +46,15 @@ export function Navigation() {
           >
             <Search size={14} />
             <span className="hidden sm:inline">Find</span>
+          </Link>
+          <Link
+            href="/communities"
+            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+              pathname === "/communities" ? "text-[#0E1117]" : "text-[#8F9BB8] hover:text-[#0E1117]"
+            }`}
+          >
+            <Users size={14} />
+            <span className="hidden sm:inline">Communities</span>
           </Link>
         </nav>
       </div>

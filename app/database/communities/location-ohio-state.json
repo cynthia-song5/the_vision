@@ -1,0 +1,39 @@
+{
+  "id": "location-ohio-state",
+  "name": "Ohio State Students",
+  "description": "Fashion and outfit inspiration from Ohio State University students. Share your campus style!",
+  "category": "location",
+  "memberCount": 2847,
+  "trending": true,
+  "createdAt": "2024-01-15T08:00:00Z",
+  "recentPosts": [
+    {
+      "id": "post-001",
+      "communityId": "location-ohio-state",
+      "username": "buckeye_fashion",
+      "caption": "Game day fit! 🧡⚪️ Perfect for the tailgate!",
+      "imageUrl": "/database/communities/osu-game-day.jpg",
+      "tags": ["game day", "casual", "osu", "football"],
+      "likes": 234,
+      "comments": 18,
+      "saves": 45,
+      "createdAt": "2024-03-08T14:30:00Z",
+      "isLiked": false,
+      "isSaved": false
+    },
+    {
+      "id": "post-002", 
+      "communityId": "location-ohio-state",
+      "username": "campus_style_23",
+      "caption": "Library study fit - comfy but cute",
+      "imageUrl": "/database/communities/library-study.jpg",
+      "tags": ["study", "casual", "cozy", "academic"],
+      "likes": 156,
+      "comments": 12,
+      "saves": 28,
+      "createdAt": "2024-03-08T10:15:00Z",
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}

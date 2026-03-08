@@ -1,0 +1,25 @@
+{
+  "id": "event-tech-conference",
+  "name": "Tech Conference Fits",
+  "description": "Outfit inspiration for tech conferences, hackathons, and networking events.",
+  "category": "event",
+  "memberCount": 1834,
+  "trending": false,
+  "createdAt": "2024-02-01T11:00:00Z",
+  "recentPosts": [
+    {
+      "id": "post-004",
+      "communityId": "event-tech-conference",
+      "username": "tech_chic",
+      "caption": "Ready for the keynote! Smart casual with a tech twist",
+      "imageUrl": "/database/communities/tech-conference.jpg",
+      "tags": ["conference", "tech", "professional", "smart casual"],
+      "likes": 189,
+      "comments": 23,
+      "saves": 67,
+      "createdAt": "2024-03-07T16:20:00Z",
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}
