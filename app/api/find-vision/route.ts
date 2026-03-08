@@ -23,7 +23,7 @@ const DatabaseOutfitSchema = z.object({
 
 // Load database outfits
 function loadDatabaseOutfits() {
-  const dbPath = path.join(process.cwd(), "app", "database", "outfits");
+  const dbPath = path.join(process.cwd(), "public", "database", "outfits");
   const outfits: any[] = [];
   
   try {

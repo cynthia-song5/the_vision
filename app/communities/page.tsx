@@ -189,61 +189,60 @@ export default function Communities() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'location': return { bg: "rgba(34,197,94,0.1)", border: "rgba(34,197,94,0.3)", text: "#22c55e" };
-      case 'event': return { bg: "rgba(59,130,246,0.1)", border: "rgba(59,130,246,0.3)", text: "#3b82f6" };
-      case 'aesthetic': return { bg: "rgba(168,85,247,0.1)", border: "rgba(168,85,247,0.3)", text: "#a855f7" };
-      default: return { bg: "rgba(126,184,212,0.1)", border: "rgba(126,184,212,0.3)", text: "#7EB8D4" };
+      case 'location': return { bg: "rgba(0,0,0,0.05)", border: "rgba(0,0,0,0.2)", text: "#000000" };
+      case 'event': return { bg: "rgba(0,0,0,0.05)", border: "rgba(0,0,0,0.2)", text: "#000000" };
+      case 'aesthetic': return { bg: "rgba(0,0,0,0.05)", border: "rgba(0,0,0,0.2)", text: "#000000" };
+      default: return { bg: "rgba(0,0,0,0.05)", border: "rgba(0,0,0,0.2)", text: "#000000" };
     }
   };
 
   return (
-    <div className="min-h-screen font-body" style={{ backgroundColor: "#F2F5FA" }}>
+    <div className="min-h-screen font-body bg-white">
       <Navigation />
 
       <main className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
           <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-body font-semibold uppercase tracking-widest mb-6 border"
-            style={{ backgroundColor: "rgba(126,184,212,0.1)", borderColor: "rgba(126,184,212,0.3)", color: "#4A8FAA" }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium mb-6 border border-gray-300 bg-gray-50 text-gray-700 lowercase"
           >
             <Users size={12} />
-            Fashion Communities
+            fashion communities
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl leading-tight mb-4" style={{ color: "#0E1117" }}>
-            Find your community.
+          <h1 className="text-4xl font-bold text-black mb-4 lowercase">
+            find your community.
             <br />
-            <em className="not-italic" style={{ color: "#7EB8D4" }}>Share your style.</em>
+            <em className="not-italic text-gray-600 lowercase">share your style.</em>
           </h1>
-          <p className="font-body text-base max-w-md mx-auto" style={{ color: "#626F8C" }}>
-            Connect with fashion lovers who share your location, events, and aesthetic preferences.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium lowercase">
+            connect with fashion lovers who share your location, events, and aesthetic preferences.
           </p>
         </div>
 
         {/* Category Filter */}
         <div className="flex flex-wrap gap-3 justify-center mb-12">
           {[
-            { id: 'all', label: 'All Communities', icon: <Users size={16} /> },
-            { id: 'location', label: 'Location-Based', icon: <MapPin size={16} /> },
-            { id: 'event', label: 'Event-Based', icon: <Calendar size={16} /> },
-            { id: 'aesthetic', label: 'Style-Based', icon: <Palette size={16} /> }
-          ].map(category => (
+            { id: 'all', label: 'all communities', icon: <Users size={16} /> },
+            { id: 'location', label: 'location-based', icon: <MapPin size={16} /> },
+            { id: 'event', label: 'event-based', icon: <Calendar size={16} /> },
+            { id: 'aesthetic', label: 'style-based', icon: <Palette size={16} /> }
+          ].map(({ id, label, icon }) => (
             <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id as any)}
+              key={id}
+              onClick={() => setSelectedCategory(id as any)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl font-body text-sm font-medium transition-all ${
-                selectedCategory === category.id
+                selectedCategory === id
                   ? 'text-white'
                   : 'border hover:opacity-80'
               }`}
               style={{
-                backgroundColor: selectedCategory === category.id ? "#0E1117" : "transparent",
-                borderColor: selectedCategory === category.id ? "transparent" : "#DDE2EE",
-                color: selectedCategory === category.id ? "#FFFFFF" : "#626F8C"
+                backgroundColor: selectedCategory === id ? "#000000" : "transparent",
+                borderColor: selectedCategory === id ? "transparent" : "#DDE2EE",
+                color: selectedCategory === id ? "#FFFFFF" : "#626F8C"
               }}
             >
-              {category.icon}
-              {category.label}
+              {icon}
+              <span className="lowercase">{label}</span>
             </button>
           ))}
         </div>
@@ -253,7 +252,7 @@ export default function Communities() {
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-8">
               <TrendingUp size={20} style={{ color: "#7EB8D4" }} />
-              <h2 className="font-display text-2xl" style={{ color: "#0E1117" }}>Trending Communities</h2>
+              <h2 className="text-2xl font-bold text-black lowercase">trending communities</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {trendingCommunities.map(community => (
@@ -275,7 +274,7 @@ export default function Communities() {
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-8">
               <MapPin size={20} style={{ color: "#7EB8D4" }} />
-              <h2 className="font-display text-2xl" style={{ color: "#0E1117" }}>Communities Near You</h2>
+              <h2 className="text-2xl font-bold text-black lowercase">communities near you</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {locationCommunities.map(community => (
@@ -294,8 +293,8 @@ export default function Communities() {
 
         {/* All Communities / Filtered */}
         <section>
-          <h2 className="font-display text-2xl mb-8" style={{ color: "#0E1117" }}>
-            {selectedCategory === 'all' ? 'All Communities' : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Communities`}
+          <h2 className="text-2xl font-bold text-black mb-8 lowercase">
+            {selectedCategory === 'all' ? 'all communities' : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} communities`}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCommunities.map(community => (

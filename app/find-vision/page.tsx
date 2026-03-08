@@ -78,41 +78,39 @@ export default function FindVision() {
   const isLoading = state === 'uploading' || state === 'searching';
 
   return (
-    <div className="min-h-screen font-body" style={{ backgroundColor: "#F2F5FA" }}>
+    <div className="min-h-screen font-body bg-white">
       <Navigation />
 
       <main className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
           <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-body font-semibold uppercase tracking-widest mb-6 border"
-            style={{ backgroundColor: "rgba(126,184,212,0.1)", borderColor: "rgba(126,184,212,0.3)", color: "#4A8FAA" }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium mb-6 border border-gray-300 bg-gray-50 text-gray-700 lowercase"
           >
-            <Search size={12} />
-            Visual Fashion Discovery
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-gray-500" />
+            visual fashion discovery
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl leading-tight mb-4" style={{ color: "#0E1117" }}>
-            Find your vision.
+          <h1 className="text-4xl font-bold text-black mb-4 lowercase">
+            find your vision.
             <br />
-            <em className="not-italic" style={{ color: "#7EB8D4" }}>Discover similar looks.</em>
+            <em className="not-italic text-gray-600 lowercase">discover similar looks.</em>
           </h1>
-          <p className="font-body text-base max-w-md mx-auto" style={{ color: "#626F8C" }}>
-            Upload a fashion item and discover matching outfits from our curated collection based on style, colors, and aesthetic.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium lowercase">
+            upload a fashion item and discover matching outfits from our curated collection based on style, colors, and aesthetic.
           </p>
         </div>
 
         {/* Error */}
         {state === 'error' && (
           <div
-            className="mb-6 p-4 rounded-xl border flex items-start gap-3 max-w-2xl mx-auto"
-            style={{ backgroundColor: "#FEF2F2", borderColor: "#FECACA" }}
+            className="mb-6 p-4 rounded-xl border flex items-start gap-3 max-w-2xl mx-auto bg-red-50 border-red-200"
           >
             <span className="w-5 h-5 rounded-full bg-red-100 flex-shrink-0 flex items-center justify-center mt-0.5 text-red-500 text-xs font-bold">!</span>
             <div>
-              <p className="font-body font-semibold text-red-700 text-sm">Search failed</p>
-              <p className="font-body text-red-500 text-xs mt-0.5">{error}</p>
-              <button onClick={handleReset} className="mt-2 text-xs font-body font-semibold text-red-600 underline underline-offset-2">
-                Try again
+              <p className="font-medium text-red-700 text-sm lowercase">search failed</p>
+              <p className="font-normal text-red-500 text-xs mt-0.5 lowercase">{error}</p>
+              <button onClick={handleReset} className="mt-2 text-xs font-medium text-red-600 underline underline-offset-2 lowercase">
+                try again
               </button>
             </div>
           </div>
@@ -122,8 +120,7 @@ export default function FindVision() {
         {(state === 'idle' || state === 'error') && (
           <div className="max-w-2xl mx-auto">
             <div
-              className="relative rounded-2xl border-2 border-dashed p-12 text-center cursor-pointer transition-all hover:border-[#7EB8D4]"
-              style={{ borderColor: "#DDE2EE", backgroundColor: "rgba(126,184,212,0.02)" }}
+              className="relative rounded-2xl border-2 border-dashed p-12 text-center cursor-pointer transition-all hover:border-gray-400 bg-gray-50"
               onClick={() => document.getElementById('file-input')?.click()}
             >
               <input
@@ -133,11 +130,11 @@ export default function FindVision() {
                 onChange={handleFileInput}
                 className="hidden"
               />
-              <Upload size={48} style={{ color: "#7EB8D4", margin: "0 auto 1.5rem" }} />
-              <h3 className="font-display text-xl mb-2" style={{ color: "#0E1117" }}>
+              <Upload size={48} className="text-gray-600 mx-auto mb-6" />
+              <h3 className="font-display text-xl mb-2 text-black">
                 Upload a fashion photo
               </h3>
-              <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>
+              <p className="font-body text-sm text-gray-500">
                 Any clothing item, accessory, or complete outfit
               </p>
             </div>

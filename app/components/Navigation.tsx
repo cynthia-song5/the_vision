@@ -1,6 +1,6 @@
 "use client";
 
-import { Scan, Search, Users } from "lucide-react";
+import { Scan, Search, Users, Grid3X3 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,52 +9,59 @@ export function Navigation() {
 
   return (
     <header
-      className="sticky top-0 z-50 backdrop-blur-md border-b"
-      style={{ backgroundColor: "rgba(242,245,250,0.85)", borderColor: "#DDE2EE" }}
+      className="sticky top-0 z-50 backdrop-blur-md border-b bg-white/85 border-gray-200"
     >
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: "#0E1117" }}
+            className="w-7 h-7 rounded-lg flex items-center justify-center bg-black"
           >
-            <Scan size={14} style={{ color: "#7EB8D4" }} />
+            <Scan size={14} className="text-white" />
           </div>
-          <span className="font-display text-base" style={{ color: "#0E1117" }}>
-            The Vision
+          <span className="font-display text-base text-black lowercase">
+            the vision
           </span>
-          <span className="hidden sm:block text-xs font-body font-medium uppercase tracking-[0.18em]" style={{ color: "#8F9BB8" }}>
-            · {pathname === "/" ? "Share Your Vision" : pathname === "/find-vision" ? "Find Your Vision" : "Communities"}
+          <span className="hidden sm:block text-xs font-body font-medium uppercase tracking-[0.18em] text-gray-500 lowercase">
+            · {pathname === "/feed" ? "inspiration feed" : pathname === "/share" ? "share your vision" : pathname === "/find-vision" ? "find your vision" : "communities"}
           </span>
         </div>
         
         <nav className="flex items-center gap-6">
           <Link
-            href="/"
+            href="/feed"
             className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-              pathname === "/" ? "text-[#0E1117]" : "text-[#8F9BB8] hover:text-[#0E1117]"
+              pathname === "/feed" ? "text-black" : "text-gray-500 hover:text-black"
+            }`}
+          >
+            <Grid3X3 size={14} />
+            <span className="hidden sm:inline lowercase">feed</span>
+          </Link>
+          <Link
+            href="/share"
+            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+              pathname === "/share" ? "text-black" : "text-gray-500 hover:text-black"
             }`}
           >
             <Scan size={14} />
-            <span className="hidden sm:inline">Share</span>
+            <span className="hidden sm:inline lowercase">share</span>
           </Link>
           <Link
             href="/find-vision"
             className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-              pathname === "/find-vision" ? "text-[#0E1117]" : "text-[#8F9BB8] hover:text-[#0E1117]"
+              pathname === "/find-vision" ? "text-black" : "text-gray-500 hover:text-black"
             }`}
           >
             <Search size={14} />
-            <span className="hidden sm:inline">Find</span>
+            <span className="hidden sm:inline lowercase">find</span>
           </Link>
           <Link
             href="/communities"
             className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-              pathname === "/communities" ? "text-[#0E1117]" : "text-[#8F9BB8] hover:text-[#0E1117]"
+              pathname === "/communities" ? "text-black" : "text-gray-500 hover:text-black"
             }`}
           >
             <Users size={14} />
-            <span className="hidden sm:inline">Communities</span>
+            <span className="hidden sm:inline lowercase">communities</span>
           </Link>
         </nav>
       </div>

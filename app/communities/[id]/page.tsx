@@ -265,7 +265,7 @@ export default function CommunityPage() {
   }
 
   return (
-    <div className="min-h-screen font-body" style={{ backgroundColor: "#F2F5FA" }}>
+    <div className="min-h-screen bg-white">
       <Navigation />
 
       <main className="max-w-7xl mx-auto px-6 py-8">
@@ -273,33 +273,32 @@ export default function CommunityPage() {
         <div className="mb-8">
           <button
             onClick={() => router.push('/communities')}
-            className="flex items-center gap-2 text-sm font-body font-medium mb-4 transition-colors hover:opacity-80"
-            style={{ color: "#626F8C" }}
+            className="flex items-center gap-2 text-sm font-body font-medium mb-4 transition-colors hover:opacity-80 text-gray-600"
           >
             <ArrowLeft size={16} />
             Back to Communities
           </button>
 
-          <div className="rounded-2xl p-8 border" style={{ backgroundColor: "#FFFFFF", borderColor: "#DDE2EE" }}>
+          <div className="rounded-2xl p-8 border bg-white border-gray-200">
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
               <div className="flex-1">
-                <h1 className="font-display text-3xl mb-3" style={{ color: "#0E1117" }}>
+                <h1 className="font-display text-3xl mb-3 text-black">
                   {community.name}
                 </h1>
-                <p className="font-body text-base mb-4" style={{ color: "#626F8C" }}>
+                <p className="font-body text-base mb-4 text-gray-600">
                   {community.description}
                 </p>
                 <div className="flex flex-wrap items-center gap-4 text-sm">
                   <div className="flex items-center gap-1">
-                    <Users size={14} style={{ color: "#8F9BB8" }} />
-                    <span className="font-body font-medium" style={{ color: "#8F9BB8" }}>
+                    <Users size={14} className="text-gray-500" />
+                    <span className="font-body font-medium text-gray-500">
                       {community.memberCount.toLocaleString()} members
                     </span>
                   </div>
                   {community.trending && (
                     <div className="flex items-center gap-1">
-                      <TrendingUp size={14} style={{ color: "#22c55e" }} />
-                      <span className="font-body font-medium" style={{ color: "#22c55e" }}>
+                      <TrendingUp size={14} className="text-green-600" />
+                      <span className="font-body font-medium text-green-600">
                         Trending
                       </span>
                     </div>
@@ -316,9 +315,9 @@ export default function CommunityPage() {
                       : 'text-white hover:opacity-90'
                   }`}
                   style={{
-                    backgroundColor: isJoined ? "transparent" : "#0E1117",
-                    borderColor: isJoined ? "#DDE2EE" : "transparent",
-                    color: isJoined ? "#626F8C" : "#FFFFFF"
+                    backgroundColor: isJoined ? "transparent" : "#000000",
+                    borderColor: isJoined ? "#d1d5db" : "transparent",
+                    color: isJoined ? "#6b7280" : "#FFFFFF"
                   }}
                 >
                   {isJoined ? 'Leave Community' : 'Join Community'}
@@ -327,8 +326,7 @@ export default function CommunityPage() {
                 {isJoined && (
                   <button
                     onClick={() => setShowPostModal(true)}
-                    className="px-6 py-3 rounded-xl font-body text-sm font-medium text-white transition-all hover:opacity-90"
-                    style={{ backgroundColor: "#0E1117" }}
+                    className="px-6 py-3 rounded-xl font-body text-sm font-medium text-white transition-all hover:opacity-90 bg-black"
                   >
                     <Plus size={16} className="inline mr-2" />
                     Post Outfit
@@ -340,7 +338,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b mb-8" style={{ borderColor: "#DDE2EE" }}>
+        <div className="border-b mb-8 border-gray-200">
           <div className="flex gap-8">
             {[
               { id: 'latest', label: 'Latest Posts' },
@@ -352,8 +350,8 @@ export default function CommunityPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`pb-4 px-1 font-body text-sm font-medium border-b-2 transition-all ${
                   activeTab === tab.id
-                    ? 'border-[#0E1117] text-[#0E1117]'
-                    : 'border-transparent text-[#8F9BB8] hover:text-[#0E1117]'
+                    ? 'border-black text-black'
+                    : 'border-transparent text-gray-500 hover:text-black'
                 }`}
               >
                 {tab.label}
