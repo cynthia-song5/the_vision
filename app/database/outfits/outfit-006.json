@@ -1,0 +1,27 @@
+{
+    "id": "outfit-002",
+    "image": "/database/outfits/92c3ea2ec230dcba4d544ce26e2cd144.jpg",
+    "items": [
+      {
+        "item_type": "Satin Lace-Trim Camisole",
+        "brand": "Intimissimi",
+        "colors": ["Cream", "Ivory"],
+        "style_vibe": "Romantic / Chic",
+        "size": "S"
+      },
+      {
+        "item_type": "Wide-Leg Tailored Pants",
+        "brand": "Aritzia",
+        "colors": ["Dark Grey", "Charcoal"],
+        "style_vibe": "Minimalist / Sophisticated",
+        "size": "M"
+      },
+      {
+        "item_type": "Shoulder Bag",
+        "brand": "Coach",
+        "colors": ["Burgundy", "Deep Red"],
+        "style_vibe": "Vintage Aesthetic",
+        "size": "OS"
+      }
+    ]
+}

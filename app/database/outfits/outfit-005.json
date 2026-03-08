@@ -1,0 +1,21 @@
+{
+    "id": "outfit-004",
+    "image": "/database/outfits/4003c8e41aeaf7623de883e9f29087a6.jpg",
+    "items": [
+      {
+        "item_type": "Silk Camisole with Lace Appliqué",
+        "brand": "Realisation Par",
+        "colors": ["White"],
+        "style_vibe": "Lingerie-Inspired / Feminine",
+        "size": "S"
+      },
+      {
+        "item_type": "Baggy Denim Jeans",
+        "brand": "Levi's",
+        "colors": ["Dark Wash Blue"],
+        "style_vibe": "Streetwear / Y2K",
+        "size": "26/27"
+      }
+    ],
+    "overall_vibe": "Downtown Girl / Soft Grunge Mix"
+  }

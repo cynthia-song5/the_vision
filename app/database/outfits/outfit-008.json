@@ -1,0 +1,28 @@
+{
+    "id": "outfit-008",
+    "image": "/database/outfits/b1e266e4a5106af5127c08a15c153141.jpg",
+    "items": [
+      {
+        "item_type": "Embroidered Cotton Camisole",
+        "brand": "Mirror Palais",
+        "colors": ["White"],
+        "style_vibe": "Cottagecore / Vintage-Inspired",
+        "size": "S"
+      },
+      {
+        "item_type": "Drawstring Linen Pants",
+        "brand": "Free People",
+        "colors": ["White"],
+        "style_vibe": "Coastal Grandmother / Airy",
+        "size": "S"
+      },
+      {
+        "item_type": "Flower Statement Earrings",
+        "brand": "Anthropologie",
+        "colors": ["Gold"],
+        "style_vibe": "Whimsical",
+        "size": "OS"
+      }
+    ],
+    "overall_vibe": "Romantic Coastal Leisure"
+  }
