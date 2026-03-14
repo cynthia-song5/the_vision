@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "StyleTag — AI Fashion Analysis",
+  title: "The Vision — AI Fashion Analysis",
   description:
     "Instantly identify fashion items, brands, colors, and style vibes with AI.",
   openGraph: {
-    title: "StyleTag — AI Fashion Analysis",
+    title: "The Vision — AI Fashion Analysis",
     description:
       "Drop a photo. Get instant style analysis powered by Google Gemini.",
     type: "website",

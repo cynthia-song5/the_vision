@@ -18,11 +18,18 @@ export function Navigation() {
           >
             <Scan size={14} className="text-white" />
           </div>
-          <span className="font-display text-base text-black lowercase">
+          <span className="font-display text-lg font-bold lowercase text-black">
             the vision
           </span>
-          <span className="hidden sm:block text-xs font-body font-medium uppercase tracking-[0.18em] text-gray-500 lowercase">
-            · {pathname === "/feed" ? "inspiration feed" : pathname === "/share" ? "share your vision" : pathname === "/find-vision" ? "find your vision" : "communities"}
+          <span className="hidden sm:block text-xs font-body font-medium tracking-[0.18em] text-gray-500 lowercase">
+            ·{" "}
+            {pathname === "/feed"
+              ? "inspiration feed"
+              : pathname === "/share"
+              ? "share your vision"
+              : pathname === "/find-vision"
+              ? "find your vision"
+              : "communities"}
           </span>
         </div>
         
