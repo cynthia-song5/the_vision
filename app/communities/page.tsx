@@ -285,7 +285,7 @@ export default function Communities() {
         {/* All Communities / Filtered */}
         <section>
           <h2 className="text-2xl font-bold text-black mb-8 lowercase">
-            {selectedCategory === 'all' ? 'all communities' : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} communities`}
+            {selectedCategory === 'all' ? 'all communities' : `${selectedCategory} communities`}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCommunities.map(community => (
@@ -335,8 +335,8 @@ function CommunityCard({
           )}
           <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 rounded-full border" style={{ backgroundColor: categoryColors.bg, borderColor: categoryColors.border }}>
             {getCategoryIcon(community.category)}
-            <span className="text-xs font-medium" style={{ color: categoryColors.text }}>
-              {community.category}
+            <span className="text-xs font-medium lowercase" style={{ color: categoryColors.text }}>
+              {community.category.toLowerCase()}
             </span>
           </div>
         </div>
@@ -345,9 +345,9 @@ function CommunityCard({
         <div className="p-5">
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1">
-              <h3 className="font-display text-lg mb-1" style={{ color: "#0E1117" }}>{community.name}</h3>
+              <h3 className="font-display text-lg mb-1 lowercase" style={{ color: "#0E1117" }}>{community.name.toLowerCase()}</h3>
               <p className="font-body text-sm mb-3 line-clamp-2" style={{ color: "#626F8C" }}>
-                {community.description}
+                {community.description.toLowerCase()}
               </p>
             </div>
           </div>
@@ -375,12 +375,12 @@ function CommunityCard({
             <div className="border-t pt-3" style={{ borderColor: "#F0F2F7" }}>
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-6 h-6 rounded-full" style={{ backgroundColor: "#E4EAF4" }} />
-                <span className="text-xs font-body font-medium" style={{ color: "#0E1117" }}>
-                  {community.recentPosts[0].username}
+                <span className="text-xs font-body font-medium lowercase" style={{ color: "#0E1117" }}>
+                  {community.recentPosts[0].username.toLowerCase()}
                 </span>
               </div>
               <p className="text-xs font-body line-clamp-2 mb-2" style={{ color: "#626F8C" }}>
-                {community.recentPosts[0].caption}
+                {community.recentPosts[0].caption.toLowerCase()}
               </p>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1">
