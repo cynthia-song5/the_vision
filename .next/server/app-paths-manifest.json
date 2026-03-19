@@ -1,6 +1,5 @@
 {
-  "/api/database/feed/route": "app/api/database/feed/route.js",
+  "/communities/page": "app/communities/page.js",
   "/page": "app/page.js",
-  "/share/page": "app/share/page.js",
-  "/feed/page": "app/feed/page.js"
+  "/share/page": "app/share/page.js"
 }

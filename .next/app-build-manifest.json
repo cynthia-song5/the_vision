@@ -6,10 +6,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/share/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/share/page.js"
+    ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
+    ],
+    "/find-vision/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/find-vision/page.js"
     ],
     "/feed/page": [
       "static/chunks/webpack.js",
@@ -21,10 +31,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/database/feed/route.js"
     ],
-    "/share/page": [
+    "/communities/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/share/page.js"
+      "static/chunks/app/communities/page.js"
     ]
   }
 }
