@@ -230,16 +230,7 @@ export default function Communities() {
             <button
               key={id}
               onClick={() => setSelectedCategory(id as any)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-body text-sm font-medium transition-all ${
-                selectedCategory === id
-                  ? 'text-white'
-                  : 'border hover:opacity-80'
-              }`}
-              style={{
-                backgroundColor: selectedCategory === id ? "#000000" : "transparent",
-                borderColor: selectedCategory === id ? "transparent" : "#DDE2EE",
-                color: selectedCategory === id ? "#FFFFFF" : "#626F8C"
-              }}
+              className={selectedCategory === id ? "btn-primary" : "btn-outline"}
             >
               {icon}
               <span className="lowercase">{label}</span>
@@ -373,7 +364,7 @@ function CommunityCard({
               <div className="flex items-center gap-1">
                 <TrendingUp size={14} style={{ color: "#22c55e" }} />
                 <span className="text-xs font-body font-medium" style={{ color: "#22c55e" }}>
-                  Trending
+                  trending
                 </span>
               </div>
             )}
@@ -414,18 +405,9 @@ function CommunityCard({
               e.preventDefault();
               onJoin(community.id);
             }}
-            className={`w-full mt-4 py-2 px-4 rounded-xl font-body text-sm font-medium transition-all ${
-              isJoined 
-                ? 'border hover:opacity-80' 
-                : 'text-white hover:opacity-90'
-            }`}
-            style={{
-              backgroundColor: isJoined ? "transparent" : "#0E1117",
-              borderColor: isJoined ? "#DDE2EE" : "transparent",
-              color: isJoined ? "#626F8C" : "#FFFFFF"
-            }}
+            className={isJoined ? "btn-outline w-full mt-4" : "btn-primary w-full mt-4"}
           >
-            {isJoined ? 'Joined' : 'Join Community'}
+            {isJoined ? 'joined' : 'join community'}
           </button>
         </div>
       </div>

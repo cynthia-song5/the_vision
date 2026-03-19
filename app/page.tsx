@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { pushRoute } from "./lib/route-push";
 
 declare global {
   interface Window {
@@ -11,14 +12,39 @@ declare global {
 
 export default function Home() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Prevent any lingering landing-page overlay (canvas + UI) from persisting
+  // when navigating away and back within the same session.
+  if (pathname !== "/") return null;
 
   useEffect(() => {
+    if (pathname !== "/") return;
+
+    // When pathname changes away from '/', this effect instance should be torn down.
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
     script.async = true;
     document.head.appendChild(script);
 
+    let renderer: any = null;
+    let scene: any = null;
+    let domElement: HTMLCanvasElement | null = null;
+    let rafId: number | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let onMouseMove: ((e: MouseEvent) => void) | null = null;
+    let onResize: (() => void) | null = null;
+    let onClick: (() => void) | null = null;
+
+    // Extra resources for proper disposal (prevents resource leaks across navigations).
+    let cubeRenderTarget: any = null;
+    let envTex: any = null;
+    let cancelled = false;
+
     script.onload = () => {
+      // If we've already navigated away or cleaned up, don't initialize again.
+      if (cancelled || pathname !== "/") return;
+
       if (!(window as any).THREE) {
         console.error('THREE.js failed to load');
         return;
@@ -26,16 +52,18 @@ export default function Home() {
 
       const THREE = (window as any).THREE;
 
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.2;
-      document.body.appendChild(renderer.domElement);
 
-      const scene = new THREE.Scene();
+      domElement = renderer.domElement as HTMLCanvasElement;
+      document.body.appendChild(domElement);
+
+      scene = new THREE.Scene();
       scene.background = new THREE.Color(0xffffff);
 
       const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -80,19 +108,23 @@ export default function Home() {
         return new THREE.CanvasTexture(cvs);
       }
 
-      const envTex = buildGradientEnv();
-      if (!envTex) {
+      const builtEnvTex = buildGradientEnv();
+      if (!builtEnvTex) {
         console.error('Failed to build environment texture');
         return;
       }
 
-      const envMat = new THREE.MeshBasicMaterial({ map: envTex, side: THREE.BackSide });
+      envTex = builtEnvTex;
+      const envMat = new THREE.MeshBasicMaterial({
+        map: envTex,
+        side: THREE.BackSide,
+      });
       const envGeom = new THREE.SphereGeometry(50, 32, 32);
       const envMesh = new THREE.Mesh(envGeom, envMat);
       const envScene = new THREE.Scene();
       envScene.add(envMesh);
 
-      const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
+      cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
         format: THREE.RGBFormat,
         generateMipmaps: true,
         minFilter: THREE.LinearMipmapLinearFilter,
@@ -223,7 +255,7 @@ export default function Home() {
       const raycaster = new THREE.Raycaster();
       let anyHovered = false;
 
-      document.addEventListener('mousemove', (e: MouseEvent) => {
+      onMouseMove = (e: MouseEvent) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         mouse.ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -232,12 +264,13 @@ export default function Home() {
           cursor.style.left = e.clientX + 'px';
           cursor.style.top = e.clientY + 'px';
         }
-      });
+      };
+      document.addEventListener('mousemove', onMouseMove);
 
       const clock = new THREE.Clock();
 
       function animate() {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
         const t = clock.getElapsedTime();
 
         raycaster.setFromCamera(mouse.ndc, camera);
@@ -296,45 +329,74 @@ export default function Home() {
 
       animate();
 
-      window.addEventListener('resize', () => {
+      onResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      });
+      };
+      window.addEventListener('resize', onResize);
 
       // ── FIXED: only push the route of the star that is actually hovered ──
-      renderer.domElement.addEventListener('click', () => {
-        if (anyHovered) {
-          stars.forEach((star: any) => {
-            if (star.hovered) {
-              star.targetHoverScale = 1.35;
-              setTimeout(() => {
-                star.targetHoverScale = 1.22;
-                router.push(star.route);
-              }, 150);
-            }
-          });
-        }
-      });
+      onClick = () => {
+        const hoveredStar = stars.find((star: any) => star.hovered);
+        if (!hoveredStar) return;
+
+        hoveredStar.targetHoverScale = 1.35;
+        if (timeoutId) clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+          hoveredStar.targetHoverScale = 1.22;
+          pushRoute(router, hoveredStar.route);
+        }, 60);
+      };
+
+      domElement?.addEventListener('click', onClick);
     };
 
     return () => {
-      document.body.innerHTML = '';
+      cancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      if (rafId) cancelAnimationFrame(rafId);
+
+      if (onMouseMove) document.removeEventListener('mousemove', onMouseMove);
+      if (onResize) window.removeEventListener('resize', onResize);
+      if (domElement && onClick) domElement.removeEventListener('click', onClick);
+
+      try {
+        // Dispose WebGL resources to avoid leaked render loops across navigations.
+        if (scene) {
+          scene.traverse((obj: any) => {
+            if (obj?.geometry?.dispose) obj.geometry.dispose();
+            if (obj?.material?.dispose) obj.material.dispose();
+            if (Array.isArray(obj?.material)) {
+              obj.material.forEach((m: any) => m?.dispose?.());
+            }
+          });
+        }
+        if (cubeRenderTarget?.dispose) cubeRenderTarget.dispose();
+        if (envTex?.dispose) envTex.dispose();
+        renderer?.dispose?.();
+      } catch {
+        // best-effort cleanup; avoid throwing during unmount
+      }
+
+      if (domElement?.parentNode) {
+        domElement.parentNode.removeChild(domElement);
+      }
     };
-  }, [router]);
+  }, [router, pathname]);
 
   return (
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             background: #ffffff;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'DM Sans', system-ui, sans-serif;
             cursor: none;
           }
           .cursor {
@@ -376,8 +438,7 @@ export default function Home() {
             text-transform: lowercase;
             color: #1a1a1a;
             font-weight: 300;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
+            font-family: 'DM Sans', system-ui, sans-serif;
             transition: letter-spacing 0.4s ease;
           }
           .wordmark {
@@ -387,9 +448,9 @@ export default function Home() {
             z-index: 20;
             font-size: 11px;
             letter-spacing: 0.35em;
-            text-transform: uppercase;
+            text-transform: lowercase;
             color: rgba(0,0,0,0.3);
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'DM Sans', system-ui, sans-serif;
             font-weight: 300;
             user-select: none;
           }
@@ -400,9 +461,9 @@ export default function Home() {
             z-index: 20;
             font-size: 9px;
             letter-spacing: 0.4em;
-            text-transform: uppercase;
+            text-transform: lowercase;
             color: rgba(0,0,0,0.2);
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'DM Sans', system-ui, sans-serif;
             animation: breathe 4s ease-in-out infinite;
           }
           @keyframes breathe {
@@ -413,7 +474,7 @@ export default function Home() {
       }} />
 
       <div className="cursor" id="cursor"></div>
-      <div className="wordmark">✦ &nbsp; Studio</div>
+      <div className="wordmark">✦ &nbsp; studio</div>
       <div className="hint">hover to explore</div>
 
       <div className="labels" id="labels">

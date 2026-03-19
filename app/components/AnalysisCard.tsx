@@ -40,17 +40,23 @@ const ITEM_ACCENTS = [
   { bg: "rgba(106,127,181,0.06)", border: "rgba(106,127,181,0.2)",  dot: "#6A7FB5" },
 ];
 
-function EditableBrand({ brand, onBrandChange }: { brand: string; onBrandChange: (brand: string) => void }) {
+function EditableBrand({
+  brand,
+  onBrandChange,
+}: {
+  brand: string;
+  onBrandChange: (brand: string) => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(brand);
+  const [editValue, setEditValue] = useState(brand.toLowerCase());
 
   const handleSave = () => {
-    onBrandChange(editValue);
+    onBrandChange(editValue.toLowerCase());
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setEditValue(brand);
+    setEditValue(brand.toLowerCase());
     setIsEditing(false);
   };
 
@@ -60,7 +66,7 @@ function EditableBrand({ brand, onBrandChange }: { brand: string; onBrandChange:
         <input
           type="text"
           value={editValue}
-          onChange={(e) => setEditValue(e.target.value)}
+          onChange={(e) => setEditValue(e.target.value.toLowerCase())}
           className="font-mono text-xs font-medium bg-transparent border-b border-blue-400 outline-none"
           style={{ color: "#4A8FAA", width: "100px" }}
           autoFocus
@@ -91,7 +97,7 @@ function EditableBrand({ brand, onBrandChange }: { brand: string; onBrandChange:
         style={{ color: "#4A8FAA" }}
         onClick={() => setIsEditing(true)}
       >
-        {brand}
+        {brand.toLowerCase()}
       </span>
       <Edit2 
         size={8} 
@@ -105,6 +111,7 @@ function EditableBrand({ brand, onBrandChange }: { brand: string; onBrandChange:
 
 function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: number; onItemUpdate: (item: FashionItem) => void }) {
   const accent = ITEM_ACCENTS[index % ITEM_ACCENTS.length];
+  const showSize = !!item.size && item.size.toLowerCase() !== "unknown";
 
   return (
     <div
@@ -127,20 +134,20 @@ function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: num
               className="font-display text-lg leading-snug"
               style={{ color: "#0E1117" }}
             >
-              {item.item_type}
+              {item.item_type.toLowerCase()}
             </p>
             <EditableBrand 
-              brand={item.brand} 
+              brand={item.brand.toLowerCase()} 
               onBrandChange={(newBrand) => onItemUpdate({ ...item, brand: newBrand })} 
             />
-            {item.size && item.size !== "Unknown" && (
+            {showSize && (
               <div className="flex items-center gap-1 mt-1">
                 <Tag size={10} style={{ color: "#7EB8D4" }} />
                 <span
                   className="font-mono text-xs font-medium"
                   style={{ color: "#4A8FAA" }}
                 >
-                  {item.size}
+                  {item.size.toLowerCase()}
                 </span>
               </div>
             )}
@@ -154,7 +161,7 @@ function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: num
             color: "#4A8FAA",
           }}
         >
-          {item.style_vibe}
+          {item.style_vibe.toLowerCase()}
         </span>
       </div>
 
@@ -163,10 +170,10 @@ function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: num
         <div className="flex items-center gap-1.5 mb-2">
           <Palette size={11} style={{ color: "#8F9BB8" }} />
           <span
-            className="text-xs font-body uppercase tracking-widest"
+            className="text-xs font-body tracking-widest"
             style={{ color: "#8F9BB8" }}
           >
-            Colors
+            colors
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -184,7 +191,7 @@ function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: num
                 }}
               />
               <span className="text-xs font-body" style={{ color: "#3E4A63" }}>
-                {color}
+                {color.toLowerCase()}
               </span>
             </div>
           ))}
@@ -196,6 +203,7 @@ function ItemCard({ item, index, onItemUpdate }: { item: FashionItem; index: num
 
 export function AnalysisCard({ data, imageUrl, onReset }: AnalysisCardProps) {
   const [analysisData, setAnalysisData] = useState(data);
+  const [postStatus, setPostStatus] = useState<"idle" | "posting" | "posted">("idle");
 
   const handleItemUpdate = (updatedItem: FashionItem) => {
     setAnalysisData(prev => ({
@@ -207,9 +215,9 @@ export function AnalysisCard({ data, imageUrl, onReset }: AnalysisCardProps) {
   };
 
   const handlePostToFeed = () => {
-    // TODO: Implement post to feed functionality
-    console.log('Posting to feed:', analysisData);
-    alert('Posted to feed! (Functionality to be implemented)');
+    // Placeholder: avoid blocking UI with `alert` and provide instant feedback.
+    setPostStatus("posting");
+    setTimeout(() => setPostStatus("posted"), 400);
   };
   return (
     <div style={{ animation: "fadeUp 0.4s ease-out both" }}>
@@ -233,10 +241,10 @@ export function AnalysisCard({ data, imageUrl, onReset }: AnalysisCardProps) {
                 <Layers size={13} style={{ color: "#7EB8D4" }} className="flex-shrink-0" />
                 <div>
                   <p className="text-white/50 text-xs font-body" style={{ fontSize: "10px", letterSpacing: "0.12em" }}>
-                    OVERALL VIBE
+                    overall vibe
                   </p>
                   <p className="text-white text-xs font-body font-semibold truncate">
-                    {analysisData.overall_vibe}
+                    {analysisData.overall_vibe.toLowerCase()}
                   </p>
                 </div>
               </div>
@@ -249,8 +257,8 @@ export function AnalysisCard({ data, imageUrl, onReset }: AnalysisCardProps) {
             style={{ backgroundColor: "#E4EAF4", borderColor: "#DDE2EE" }}
           >
             <div>
-              <p className="font-body text-xs uppercase tracking-widest mb-0.5" style={{ color: "#8F9BB8" }}>
-                Items Found
+              <p className="font-body text-xs tracking-widest mb-0.5" style={{ color: "#8F9BB8" }}>
+                items found
               </p>
               <p className="font-display text-2xl" style={{ color: "#0E1117" }}>
                 {analysisData.items.length}
@@ -269,30 +277,33 @@ export function AnalysisCard({ data, imageUrl, onReset }: AnalysisCardProps) {
 
           <button
             onClick={onReset}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border font-body text-sm font-medium transition-all duration-200 hover:opacity-80"
-            style={{ borderColor: "#DDE2EE", color: "#626F8C", backgroundColor: "transparent" }}
+            className="btn-outline w-full"
           >
             <RefreshCw size={13} />
-            Analyse another outfit
+            analyse another outfit
           </button>
 
           <button
             onClick={handlePostToFeed}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-body text-sm font-medium transition-all duration-200 hover:opacity-90"
-            style={{ backgroundColor: "#0E1117", color: "#FFFFFF" }}
+            disabled={postStatus !== "idle"}
+            className="btn-primary w-full"
           >
             <Share2 size={13} />
-            Post to Feed
+            {postStatus === "idle"
+              ? "post to feed"
+              : postStatus === "posting"
+                ? "posting..."
+                : "posted"}
           </button>
         </div>
 
         {/* Right — item cards grid */}
         <div>
           <p
-            className="font-body text-xs uppercase tracking-widest mb-4"
+            className="font-body text-xs tracking-widest mb-4"
             style={{ color: "#8F9BB8" }}
           >
-            Identified pieces
+            identified pieces
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {analysisData.items.map((item, i) => (

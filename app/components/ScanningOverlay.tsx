@@ -49,11 +49,11 @@ export function ScanningOverlay() {
       </div>
 
       <div className="text-center">
-        <p className="font-body text-xs font-semibold text-white tracking-[0.22em] uppercase">
-          Scanning
+        <p className="font-body text-xs font-semibold text-white tracking-[0.22em]">
+          scanning
         </p>
         <p className="font-body text-xs mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
-          Identifying all items…
+          identifying all items…
         </p>
       </div>
 

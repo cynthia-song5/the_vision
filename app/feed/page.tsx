@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { PostCard } from "../components/PostCard";
 import { PostDetail } from "../components/PostDetail";
 import { Navigation } from "../components/Navigation";
@@ -42,9 +42,9 @@ export default function Feed() {
     loadPosts();
   }, []);
 
-  const handlePostClick = (post: Post) => {
+  const handlePostClick = useCallback((post: Post) => {
     setSelectedPost(post);
-  };
+  }, []);
 
   const handleCloseDetail = () => {
     setSelectedPost(null);
@@ -61,9 +61,9 @@ export default function Feed() {
   if (isLoading && posts.length === 0) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
+          <div className="text-center">
           <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading feed...</p>
+            <p className="text-gray-600">loading feed...</p>
         </div>
       </div>
     );
@@ -90,7 +90,7 @@ export default function Feed() {
             <PostCard
               key={post.id}
               post={post}
-              onClick={() => handlePostClick(post)}
+              onClick={handlePostClick}
             />
           ))}
         </div>
@@ -100,7 +100,7 @@ export default function Feed() {
           <button
             onClick={loadMore}
             disabled={isLoading}
-            className="px-8 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed lowercase"
+            className="btn-primary lowercase"
           >
             {isLoading ? 'loading...' : 'load more'}
           </button>

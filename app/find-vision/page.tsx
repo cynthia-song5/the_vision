@@ -132,7 +132,7 @@ export default function FindVision() {
               />
               <Upload size={48} className="text-gray-600 mx-auto mb-6" />
               <h3 className="font-display text-xl mb-2 text-black">
-                Upload a fashion photo
+                upload a fashion photo
               </h3>
               <p className="font-body text-sm text-gray-500">
                 Any clothing item, accessory, or complete outfit
@@ -150,7 +150,7 @@ export default function FindVision() {
               <div className="absolute inset-0 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "rgba(14,17,23,0.35)" }}>
                 <div className="rounded-xl px-5 py-3 backdrop-blur-sm" style={{ backgroundColor: "rgba(242,245,250,0.9)" }}>
                   <p className="font-body text-sm font-semibold" style={{ color: "#1A2030" }}>
-                    {state === 'uploading' ? 'Preparing image...' : 'Finding matching outfits...'}
+                    {state === 'uploading' ? 'preparing image...' : 'finding matching outfits...'}
                   </p>
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function FindVision() {
             <div className="max-w-4xl mx-auto mb-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="font-display text-lg mb-4" style={{ color: "#0E1117" }}>Your Upload</h3>
+                  <h3 className="font-display text-lg mb-4" style={{ color: "#0E1117" }}>your upload</h3>
                   <div className="relative rounded-2xl overflow-hidden aspect-[3/4]" style={{ backgroundColor: "#E4EAF4" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={uploadedImage!} alt="Your upload" className="w-full h-full object-cover" />
@@ -173,7 +173,7 @@ export default function FindVision() {
                 </div>
                 
                 <div>
-                  <h3 className="font-display text-lg mb-4" style={{ color: "#0E1117" }}>Detected Items</h3>
+                  <h3 className="font-display text-lg mb-4" style={{ color: "#0E1117" }}>detected items</h3>
                   <div className="space-y-3">
                     {matchResult.uploadedAnalysis.items.map((item, i) => (
                       <div
@@ -183,14 +183,14 @@ export default function FindVision() {
                       >
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <p className="font-display text-sm" style={{ color: "#0E1117" }}>{item.item_type}</p>
+                            <p className="font-display text-sm" style={{ color: "#0E1117" }}>{item.item_type.toLowerCase()}</p>
                             <div className="flex items-center gap-2 mt-1">
                               <Award size={10} style={{ color: "#7EB8D4" }} />
-                              <span className="font-mono text-xs" style={{ color: "#4A8FAA" }}>{item.brand}</span>
-                              {item.size && item.size !== "Unknown" && (
+                              <span className="font-mono text-xs" style={{ color: "#4A8FAA" }}>{item.brand.toLowerCase()}</span>
+                              {item.size && item.size.toLowerCase() !== "unknown" && (
                                 <>
                                   <Tag size={10} style={{ color: "#7EB8D4" }} />
-                                  <span className="font-mono text-xs" style={{ color: "#4A8FAA" }}>{item.size}</span>
+                                  <span className="font-mono text-xs" style={{ color: "#4A8FAA" }}>{item.size.toLowerCase()}</span>
                                 </>
                               )}
                             </div>
@@ -203,7 +203,7 @@ export default function FindVision() {
                               color: "#4A8FAA",
                             }}
                           >
-                            {item.style_vibe}
+                            {item.style_vibe.toLowerCase()}
                           </span>
                         </div>
                         <div className="flex flex-wrap gap-1">
@@ -213,7 +213,7 @@ export default function FindVision() {
                               className="text-xs px-2 py-1 rounded-full"
                               style={{ backgroundColor: "#E4EAF4", color: "#626F8C" }}
                             >
-                              {color}
+                              {color.toLowerCase()}
                             </span>
                           ))}
                         </div>
@@ -227,24 +227,23 @@ export default function FindVision() {
             {/* Matching Outfits */}
             <div>
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-display text-2xl" style={{ color: "#0E1117" }}>
-                  Matching Outfits ({matchResult.matches.length})
+                  <h3 className="font-display text-2xl" style={{ color: "#0E1117" }}>
+                  matching outfits ({matchResult.matches.length})
                 </h3>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl border font-body text-sm font-medium transition-all"
-                  style={{ borderColor: "#DDE2EE", color: "#626F8C" }}
+                  className="btn-outline"
                 >
                   <X size={14} />
-                  Clear Search
+                    clear search
                 </button>
               </div>
 
               {matchResult.matches.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>
-                    No matching outfits found. Try uploading a different image.
-                  </p>
+                    <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>
+                      no matching outfits found. try uploading a different image.
+                    </p>
                 </div>
               ) : (
                 <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6">
@@ -259,14 +258,14 @@ export default function FindVision() {
                         />
                         <div className="p-4" style={{ backgroundColor: "#F8F9FA" }}>
                           <h4 className="font-display text-sm mb-2" style={{ color: "#0E1117" }}>
-                            {outfit.overall_vibe}
+                            {outfit.overall_vibe.toLowerCase()}
                           </h4>
                           <div className="space-y-2">
                             {outfit.items.slice(0, 3).map((item, i) => (
                               <div key={i} className="flex items-center gap-2 text-xs">
-                                <span style={{ color: "#626F8C" }}>{item.item_type}</span>
+                                <span style={{ color: "#626F8C" }}>{item.item_type.toLowerCase()}</span>
                                 <span style={{ color: "#8F9BB8" }}>·</span>
-                                <span style={{ color: "#4A8FAA" }}>{item.brand}</span>
+                                <span style={{ color: "#4A8FAA" }}>{item.brand.toLowerCase()}</span>
                               </div>
                             ))}
                           </div>

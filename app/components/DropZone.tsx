@@ -16,7 +16,7 @@ export function DropZone({ onImageAccepted, isLoading }: DropZoneProps) {
     (acceptedFiles: File[], rejectedFiles: unknown[]) => {
       setDragError(null);
       if (rejectedFiles && (rejectedFiles as File[]).length > 0) {
-        setDragError("Please upload a valid image file (JPEG, PNG, or WebP).");
+        setDragError("please upload a valid image file (jpeg, png, or webp).");
         return;
       }
       if (acceptedFiles.length > 0) onImageAccepted(acceptedFiles[0]);
@@ -69,18 +69,22 @@ export function DropZone({ onImageAccepted, isLoading }: DropZoneProps) {
 
           <div>
             <p className="font-display text-xl mb-1" style={{ color: "#1A2030" }}>
-              {isDragActive && !isDragReject ? "Release to analyse" : isDragReject ? "Invalid file type" : "Drop your outfit here"}
+              {isDragActive && !isDragReject
+                ? "release to analyse"
+                : isDragReject
+                  ? "invalid file type"
+                  : "drop your outfit here"}
             </p>
             {!isDragActive && (
               <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>
-                or click to browse · JPEG, PNG, WebP · Max 10MB
+                or click to browse · jpeg, png, webp · max 10mb
               </p>
             )}
           </div>
 
           {!isDragActive && (
             <div className="flex items-center gap-2 mt-1 flex-wrap justify-center">
-              {["Full Look", "Street Style", "Runway", "Mirror Selfie"].map((label) => (
+              {["full look", "street style", "runway", "mirror selfie"].map((label) => (
                 <span
                   key={label}
                   className="px-3 py-1 text-xs font-body font-medium rounded-full border"

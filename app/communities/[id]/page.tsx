@@ -6,6 +6,7 @@ import { Users, Heart, MessageCircle, Bookmark, Plus, TrendingUp, Award, Star, A
 import { Navigation } from "../../components/Navigation";
 import { Community, CommunityPost, CommunityMember } from "../../lib/community-types";
 import Link from "next/link";
+import { pushRoute } from "../../lib/route-push";
 
 export default function CommunityPage() {
   const params = useParams();
@@ -201,7 +202,7 @@ export default function CommunityPage() {
 
       const communityData = communities[communityId];
       if (!communityData) {
-        router.push('/communities');
+        pushRoute(router, "/communities");
         return;
       }
 
@@ -257,7 +258,7 @@ export default function CommunityPage() {
         <Navigation />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>Loading community...</p>
+            <p className="font-body text-sm" style={{ color: "#8F9BB8" }}>loading community...</p>
           </div>
         </div>
       </div>
@@ -272,11 +273,11 @@ export default function CommunityPage() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => router.push('/communities')}
+            onClick={() => pushRoute(router, "/communities")}
             className="flex items-center gap-2 text-sm font-body font-medium mb-4 transition-colors hover:opacity-80 text-gray-600"
           >
             <ArrowLeft size={16} />
-            Back to Communities
+            back to communities
           </button>
 
           <div className="rounded-2xl p-8 border bg-white border-gray-200">
@@ -299,7 +300,7 @@ export default function CommunityPage() {
                     <div className="flex items-center gap-1">
                       <TrendingUp size={14} className="text-green-600" />
                       <span className="font-body font-medium text-green-600">
-                        Trending
+                        trending
                       </span>
                     </div>
                   )}
@@ -309,27 +310,18 @@ export default function CommunityPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={handleJoinCommunity}
-                  className={`px-6 py-3 rounded-xl font-body text-sm font-medium transition-all ${
-                    isJoined 
-                      ? 'border hover:opacity-80' 
-                      : 'text-white hover:opacity-90'
-                  }`}
-                  style={{
-                    backgroundColor: isJoined ? "transparent" : "#000000",
-                    borderColor: isJoined ? "#d1d5db" : "transparent",
-                    color: isJoined ? "#6b7280" : "#FFFFFF"
-                  }}
+                  className={isJoined ? "btn-outline" : "btn-primary"}
                 >
-                  {isJoined ? 'Leave Community' : 'Join Community'}
+                  {isJoined ? 'leave community' : 'join community'}
                 </button>
                 
                 {isJoined && (
                   <button
                     onClick={() => setShowPostModal(true)}
-                    className="px-6 py-3 rounded-xl font-body text-sm font-medium text-white transition-all hover:opacity-90 bg-black"
+                    className="btn-primary"
                   >
                     <Plus size={16} className="inline mr-2" />
-                    Post Outfit
+                    post outfit
                   </button>
                 )}
               </div>
@@ -341,9 +333,9 @@ export default function CommunityPage() {
         <div className="border-b mb-8 border-gray-200">
           <div className="flex gap-8">
             {[
-              { id: 'latest', label: 'Latest Posts' },
-              { id: 'top', label: 'Top Looks' },
-              { id: 'members', label: 'Members' }
+              { id: 'latest', label: 'latest posts' },
+              { id: 'top', label: 'top looks' },
+              { id: 'members', label: 'members' }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -381,7 +373,7 @@ export default function CommunityPage() {
               <section className="mb-12">
                 <div className="flex items-center gap-2 mb-6">
                   <Award size={20} style={{ color: "#7EB8D4" }} />
-                  <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>Weekly Top Looks</h2>
+                  <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>weekly top looks</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {getTopPosts().slice(0, 6).map((post, index) => (
@@ -405,7 +397,7 @@ export default function CommunityPage() {
               <section>
                 <div className="flex items-center gap-2 mb-6">
                   <Star size={20} style={{ color: "#7EB8D4" }} />
-                  <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>Rising Creators</h2>
+                  <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>rising creators</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {getRisingCreators().map((member, index) => (
@@ -413,7 +405,7 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: "#E4EAF4" }}>
                           <span className="font-display text-sm" style={{ color: "#0E1117" }}>
-                            {member.username.charAt(0).toUpperCase()}
+                            {member.username.toLowerCase()}
                           </span>
                         </div>
                         <div>
@@ -436,7 +428,7 @@ export default function CommunityPage() {
                         <div className="flex items-center gap-1">
                           <Award size={12} style={{ color: "#7EB8D4" }} />
                           <span className="text-xs font-body font-medium" style={{ color: "#7EB8D4" }}>
-                            Community Creator
+                            community creator
                           </span>
                         </div>
                       )}
@@ -454,7 +446,7 @@ export default function CommunityPage() {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: "#E4EAF4" }}>
                       <span className="font-display text-sm" style={{ color: "#0E1117" }}>
-                        {member.username.charAt(0).toUpperCase()}
+                        {member.username.toLowerCase().charAt(0)}
                       </span>
                     </div>
                     <div className="flex-1">
@@ -462,15 +454,15 @@ export default function CommunityPage() {
                         {member.username}
                       </h3>
                       <p className="font-body text-xs" style={{ color: "#8F9BB8" }}>
-                        {member.postsCount} posts • Joined {new Date(member.joinDate).toLocaleDateString()}
+                        {member.postsCount} posts • joined {new Date(member.joinDate).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                   {member.isCreator && (
                     <div className="flex items-center gap-1 mt-3">
                       <Award size={12} style={{ color: "#7EB8D4" }} />
-                      <span className="text-xs font-body font-medium" style={{ color: "#7EB8D4" }}>
-                        Community Creator
+                        <span className="text-xs font-body font-medium" style={{ color: "#7EB8D4" }}>
+                        community creator
                       </span>
                     </div>
                   )}
@@ -519,7 +511,7 @@ function PostCard({ post, onLike, onSave }: {
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#E4EAF4" }}>
             <span className="font-display text-xs" style={{ color: "#0E1117" }}>
-              {post.username.charAt(0).toUpperCase()}
+              {post.username.toLowerCase().charAt(0)}
             </span>
           </div>
           <span className="font-body text-sm font-medium" style={{ color: "#0E1117" }}>
@@ -629,7 +621,7 @@ function PostModal({ onClose, communityId, onPost }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(14,17,23,0.5)" }}>
       <div className="w-full max-w-2xl rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF" }}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>Post to Community</h2>
+          <h2 className="font-display text-xl" style={{ color: "#0E1117" }}>post to community</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-lg transition-colors hover:bg-gray-100"
@@ -657,7 +649,7 @@ function PostModal({ onClose, communityId, onPost }: {
                 <div>
                   <Plus size={32} style={{ color: "#7EB8D4", margin: "0 auto 1rem" }} />
                   <p className="font-body text-sm" style={{ color: "#626F8C" }}>
-                    Click to upload outfit image
+                    click to upload outfit image
                   </p>
                 </div>
               )}
@@ -673,13 +665,13 @@ function PostModal({ onClose, communityId, onPost }: {
 
           {/* Caption */}
           <div className="mb-4">
-            <label className="block font-body text-sm font-medium mb-2" style={{ color: "#0E1117" }}>
-              Caption
+              <label className="block font-body text-sm font-medium mb-2" style={{ color: "#0E1117" }}>
+              caption
             </label>
             <textarea
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
-              placeholder="Share your outfit details..."
+              placeholder="share your outfit details..."
               className="w-full px-4 py-3 rounded-xl border resize-none"
               style={{ backgroundColor: "#F8F9FA", borderColor: "#DDE2EE", color: "#0E1117" }}
               rows={3}
@@ -689,7 +681,7 @@ function PostModal({ onClose, communityId, onPost }: {
           {/* Tags */}
           <div className="mb-6">
             <label className="block font-body text-sm font-medium mb-2" style={{ color: "#0E1117" }}>
-              Tags (comma separated)
+              tags (comma separated)
             </label>
             <input
               type="text"
@@ -706,18 +698,16 @@ function PostModal({ onClose, communityId, onPost }: {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl font-body text-sm font-medium border transition-all hover:opacity-80"
-              style={{ borderColor: "#DDE2EE", color: "#626F8C" }}
+          className="btn-outline flex-1"
             >
-              Cancel
+              cancel
             </button>
             <button
               type="submit"
               disabled={!selectedImage || !caption.trim()}
-              className="flex-1 px-4 py-3 rounded-xl font-body text-sm font-medium text-white transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ backgroundColor: "#0E1117" }}
+          className="btn-primary flex-1 disabled:opacity-50"
             >
-              Post Outfit
+              post outfit
             </button>
           </div>
         </form>

@@ -9,9 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Playfair Display'", "Georgia", "serif"],
+        // Keep a single font family across the app for consistency.
+        display: ["'DM Sans'", "system-ui", "sans-serif"],
         body: ["'DM Sans'", "system-ui", "sans-serif"],
-        mono: ["'DM Mono'", "monospace"],
+        mono: ["'DM Sans'", "system-ui", "sans-serif"],
       },
       colors: {
         // Near-black with cool blue undertone

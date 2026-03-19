@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Bookmark } from "lucide-react";
 import { Post } from "../../data/posts";
 
 interface PostCardProps {
   post: Post;
-  onClick: () => void;
+  onClick: (post: Post) => void;
 }
 
-export function PostCard({ post, onClick }: PostCardProps) {
+export const PostCard = memo(function PostCard({ post, onClick }: PostCardProps) {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSave = (e: React.MouseEvent) => {
@@ -20,7 +20,7 @@ export function PostCard({ post, onClick }: PostCardProps) {
   return (
     <div 
       className="group cursor-pointer break-inside-avoid mb-4 animate-fade-in"
-      onClick={onClick}
+      onClick={() => onClick(post)}
     >
       <div className="relative overflow-hidden rounded-lg bg-white border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-gray-300">
         {/* Image */}
@@ -51,4 +51,4 @@ export function PostCard({ post, onClick }: PostCardProps) {
       </div>
     </div>
   );
-}
+});
