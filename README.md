@@ -1,242 +1,135 @@
-# The Vision — AI Fashion Discovery Platform
+# The Vision
 
-A comprehensive fashion discovery platform powered by Next.js 15 and OpenAI GPT-4o, featuring AI-powered analysis, visual search, community features, and an inspiration feed.
-
-Upload fashion photos to receive structured AI-generated tags, discover matching outfits, explore community styles, and get inspired by curated fashion content.
+Fashion discovery app: **upload & analyze outfits** with AI, **find similar looks**, browse an **inspiration feed** built from local images, and explore **communities** (demo data).
 
 ---
 
 ## Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Next.js 15 (App Router) |
-| Styling | Tailwind CSS + Google Fonts (Playfair Display + DM Sans) |
-| AI | OpenAI GPT-4o via `@ai-sdk/openai` |
-| Structured Output | Vercel AI SDK `generateObject` + Zod schema |
+|--------|------------|
+| Framework | Next.js 15 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS |
+| Typography | **DM Sans** (Google Fonts, `app/layout.tsx`) |
+| AI | OpenAI **GPT-4o** via `@ai-sdk/openai` + Vercel AI SDK `generateObject` + Zod |
 | Upload | `react-dropzone` |
 | Icons | `lucide-react` |
-| 3D Animation | Three.js (landing page) |
-| Database | JSON-based outfit and community data |
+| Landing | Three.js (CDN on `/`) |
+| Data | Feed: images under `public/database/feed/`. Communities / outfit JSON: `app/database/`. |
 
 ---
 
-## Getting Started
+## Getting started
 
-### 1. Install dependencies
+### 1. Install
 
 ```bash
 npm install
 ```
 
-### 2. Set up environment variables
+### 2. Environment
+
+Create **`.env.local`** in the project root (same folder as `package.json`). You can start from the template:
 
 ```bash
-cp .env.local.example .env.local
+cp .env.example .env.local
 ```
 
-Edit `.env.local` and add your API key:
+Then set:
 
+```bash
+OPENAI_API_KEY=sk-...
 ```
-OPENAI_API_KEY=your_key_here
-```
 
-Get a key at [OpenAI Platform](https://platform.openai.com/api-keys).
+Required for **`/api/analyze`** and **`/api/find-vision`**. Never commit `.env.local`.
 
-### 3. Run the dev server
+### 3. Dev server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3002](http://localhost:3002) to visit the application.
+Open **[http://localhost:3000](http://localhost:3000)** (or the port Next prints if 3000 is in use).
 
----
-
-## Pages & Features
-
-### 3D Landing Page (/)
-Interactive 3D star animation with navigation to main features.
-
-### Share Your Vision (/share)
-Upload fashion photos and get AI-powered analysis with detailed item identification:
-- Item type, brand, colors, style vibe, and size for each piece
-- Comprehensive outfit analysis with confidence scores
-- Structured data output for fashion items
-
-### Find Your Vision (/find-vision)
-Upload a fashion item to discover matching outfits from our curated database:
-- Visual similarity matching based on style, colors, and aesthetic
-- Dynamic database of curated outfits
-- Match scoring and recommendation system
-
-### Inspiration Feed (/feed)
-Browse and save fashion inspiration from the community:
-- Community-generated fashion posts
-- Save functionality for bookmarking favorite looks
-- Clean, minimalist feed design
-
-### Communities (/communities)
-Explore fashion communities organized by:
-- Location-based communities (NYC, LA, London, Paris)
-- Event-based groups (Weddings, Galas, Festivals)
-- Aesthetic communities (Minimalist, Streetwear, Vintage)
-
----
-
-## Project Structure
-
-```
-the-vision/
-├── app/
-│   ├── api/
-│   │   ├── analyze/
-│   │   │   └── route.ts              # POST /api/analyze — OpenAI fashion analysis
-│   │   ├── find-vision/
-│   │   │   └── route.ts              # POST /api/find-vision — Visual search matching
-│   │   └── database/
-│   │       └── feed/
-│   │           └── route.ts          # GET /api/database/feed — Community posts
-│   ├── components/
-│   │   ├── AnalysisCard.tsx          # AI analysis results display
-│   │   ├── DropZone.tsx              # Drag-and-drop upload zone
-│   │   ├── Navigation.tsx            # Site navigation component
-│   │   ├── PostCard.tsx              # Feed post cards
-│   │   ├── PostDetail.tsx            # Individual post view
-│   │   └── ScanningOverlay.tsx       # Loading animation overlay
-│   ├── database/
-│   │   └── outfits/                  # Curated outfit database (JSON)
-│   ├── feed/
-│   │   └── page.tsx                  # Inspiration feed page
-│   ├── share/
-│   │   └── page.tsx                  # Share Your Vision page
-│   ├── find-vision/
-│   │   └── page.tsx                  # Find Your Vision page
-│   ├── communities/
-│   │   ├── page.tsx                  # Communities listing page
-│   │   └── [id]/
-│   │       └── page.tsx              # Individual community page
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx                      # 3D landing page
-├── public/
-│   └── database/
-│       ├── outfits/                  # Outfit images
-│       └── communities/              # Community post images
-├── .env.local.example
-├── next.config.ts
-├── tailwind.config.ts
-└── package.json
+```bash
+npm run build   # production build
+npm start       # production server
 ```
 
 ---
 
-## API Reference
+## Features & routes
 
-### POST `/api/analyze`
+| Route | What it does |
+|--------|----------------|
+| **`/`** | Starfield (Three.js) → navigate to feed, share, find, communities. |
+| **`/share`** | Upload a photo → **`POST /api/analyze`** → structured items (type, brand, colors, vibe, size) + overall vibe. |
+| **`/find-vision`** | Upload → vision analysis, then **curated match cards** (fixed set of looks + scores in the API response). |
+| **`/feed`** | **`GET /api/database/feed`** builds posts from image files in `public/database/feed/`. |
+| **`/communities`** | Lists communities; detail at **`/communities/[id]`** (demo content + JSON under `app/database/communities/`). |
 
-**Request body:**
-```json
-{
-  "imageBase64": "<base64 string>",
-  "mimeType": "image/jpeg"
-}
+---
+
+## Data layout
+
+- **`public/database/feed/`** — Drop JPG/PNG/WebP (etc.) here; the feed API turns each file into a post.
+- **`public/database/outfits/`** — Images referenced by find-vision cards (e.g. `outfit-005.jpg`).
+- **`public/database/communities/`** — Images for community posts.
+- **`app/database/outfits/`** — Outfit JSON used as reference / future catalog wiring.
+- **`app/database/communities/`** — One JSON file per community for local/demo data.
+
+---
+
+## API reference
+
+### `POST /api/analyze`
+
+Body: `{ "imageBase64": "<base64>", "mimeType": "image/jpeg" | "image/png" | "image/webp" }`  
+Response: `{ "analysis": { "items": [...], "overall_vibe": "..." } }`
+
+### `POST /api/find-vision`
+
+Body: same shape as analyze.  
+Response: `{ "uploadedAnalysis": { "items", "overall_vibe" }, "matches": [ { "id", "image", "items", "overall_vibe", "matchScore" }, ... ] }`
+
+### `GET /api/database/feed`
+
+Response: `{ "posts": [ { "id", "image", "username", "caption", "tags", "likeCount", "timestamp", "userAvatar" } ] }`  
+(`timestamp` is ISO strings in JSON.)
+
+---
+
+## Project structure (high level)
+
 ```
-
-**Response:**
-```json
-{
-  "analysis": {
-    "items": [
-      {
-        "item_type": "Midi Skirt",
-        "brand": "Unknown",
-        "colors": ["Ivory", "Cream"],
-        "style_vibe": "Old Money",
-        "size": "M"
-      }
-    ],
-    "overall_vibe": "Elegant Business Casual"
-  }
-}
-```
-
-### POST `/api/find-vision`
-
-**Request body:**
-```json
-{
-  "imageBase64": "<base64 string>",
-  "mimeType": "image/jpeg"
-}
-```
-
-**Response:**
-```json
-{
-  "uploadedAnalysis": {
-    "items": [...],
-    "overall_vibe": "Casual Chic"
-  },
-  "matches": [
-    {
-      "id": "outfit-005",
-      "image": "/database/outfits/outfit-005.JPG",
-      "items": [...],
-      "overall_vibe": "Minimalist Professional",
-      "matchScore": 0.85
-    }
-  ]
-}
-```
-
-### GET `/api/database/feed`
-
-**Response:**
-```json
-{
-  "posts": [
-    {
-      "id": "post-001",
-      "username": "fashionista",
-      "userAvatar": "/avatars/user1.jpg",
-      "image": "/database/outfits/outfit-001.jpg",
-      "caption": "Minimalist monday vibes",
-      "likes": 42,
-      "timestamp": "2024-01-15T10:30:00Z"
-    }
-  ]
-}
+app/
+  api/analyze/          POST — OpenAI vision → structured outfit
+  api/find-vision/      POST — analyze + return curated matches
+  api/database/feed/    GET — posts from public/database/feed/
+  components/           Navigation, PostCard, AnalysisCard, DropZone, …
+  database/             outfits + communities JSON (reference / demos)
+  feed/  share/  find-vision/  communities/
+  lib/                  types, community-types, route-push helper
+public/database/        feed images, outfit images, community images
 ```
 
 ---
 
-## Design System
+## Design notes
 
-- **Typography:** Consistent lowercase text across all pages
-  - Headings: `text-4xl font-bold` (main), `text-lg font-bold` (subheadings)
-  - Body: `text-lg font-medium` (primary), `text-base font-normal` (secondary)
-  - Labels/Buttons: `text-sm font-medium`
-- **Fonts:** Playfair Display (display/headings) + DM Sans (body)
-- **Palette:** Monochromatic black and white theme
-- **Aesthetic:** Clean, minimalist fashion platform with consistent typography
+- Lowercase UI copy in many places; shared button patterns via **`app/globals.css`** (e.g. `.btn-primary`, `.btn-outline`).
+- **Do not commit** `node_modules`, **`.env.local`**, or **`.next`** — keep build output local.
 
 ---
 
-## Key Features
+## Deployment (e.g. Vercel)
 
-- **AI-Powered Analysis**: Detailed fashion item identification using GPT-4o
-- **Visual Search**: Find similar outfits based on uploaded images
-- **Community Features**: Browse and engage with fashion communities
-- **Inspiration Feed**: Save and discover fashion inspiration
-- **3D Landing Experience**: Interactive Three.js animation
-- **Responsive Design**: Optimized for all device sizes
-- **Consistent Typography**: Unified lowercase styling throughout
-
----
-
-## Deployment
-
-Deploy to Vercel in one click. Add `OPENAI_API_KEY` to your Vercel environment variables.
+Add **`OPENAI_API_KEY`** in the host’s environment variables. Ensure **`public/database/feed/`** (and other assets you need) are in the repo or provided another way, or the feed will be empty.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+---
+
+## Repo
+
+**[github.com/cynthia-song5/the_vision](https://github.com/cynthia-song5/the_vision)**
